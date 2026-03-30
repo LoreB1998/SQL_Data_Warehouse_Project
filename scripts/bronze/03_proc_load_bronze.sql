@@ -1,6 +1,6 @@
 /*
 ===============================================================================
-Stored Procedure: Load Bronze Layer (Source -> Bronze)
+Stored Procedure: Load bronze Layer (Source -> bronze)
 ===============================================================================
 Script Purpose:
     Questa stored procedure carica i dati nel layer 'bronze' dai file CSV esterni.
@@ -31,7 +31,7 @@ BEGIN
     v_batch_start_time := clock_timestamp();
 
     RAISE NOTICE '================================================';
-    RAISE NOTICE 'Loading Bronze Layer';
+    RAISE NOTICE 'Loading bronze Layer';
     RAISE NOTICE '================================================';
 
     -- ------------------------------------------------
@@ -104,7 +104,7 @@ BEGIN
 
     v_batch_end_time := clock_timestamp();
     RAISE NOTICE '==========================================';
-    RAISE NOTICE 'Loading Bronze Layer is Completed';
+    RAISE NOTICE 'Loading bronze Layer is Completed';
     RAISE NOTICE '   - Total Load Duration: %', v_batch_end_time - v_batch_start_time;
     RAISE NOTICE '==========================================';
 

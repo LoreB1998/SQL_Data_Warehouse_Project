@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 08_ddl_gold.sql
-Layer: Gold
+Layer: gold
 Obiettivo: Definizione delle Dimensioni (Star Schema)
 ===============================================================================
 */
@@ -82,7 +82,7 @@ WHERE pn.prd_end_dt IS NULL; -- Manteniamo solo i prodotti attivi
 -- Logica:
 --     - Contiene tutte le transazioni di vendita dal CRM.
 --     - Collega le vendite alle dimensioni (Customer e Product) tramite Surrogate Keys.
---     - Recupera le chiavi surrogate tramite JOIN con le View Gold.
+--     - Recupera le chiavi surrogate tramite JOIN con le View gold.
 -- =============================================================================
 
 CREATE OR REPLACE VIEW gold.fact_sales AS

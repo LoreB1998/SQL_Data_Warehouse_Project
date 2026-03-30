@@ -1,8 +1,8 @@
 /*
 ===============================================================================
 07_gold_transformation_testing.sql
-Layer: Gold (Validation)
-Obiettivo: Verificare l'integrità e la coerenza dei dati prima della creazione delle VIEW Gold.
+Layer: gold (Validation)
+Obiettivo: Verificare l'integrità e la coerenza dei dati prima della creazione delle VIEW gold.
 ===============================================================================
 */
 
@@ -13,7 +13,7 @@ Obiettivo: Verificare l'integrazione tra CRM e ERP (AZ12 e LOC101).
 ===============================================================================
 */
 
--- Controllo Base: Anteprima dell'unione delle fonti Silver
+-- Controllo Base: Anteprima dell'unione delle fonti silver
 SELECT ci.cst_id,
        ci.cst_key,
        ci.cst_firstname,
@@ -58,7 +58,7 @@ FROM silver.crm_cust_info ci
          LEFT JOIN silver.erp_loc_a101 la ON ci.cst_key = la.cid
 ORDER BY 1, 2;
 
--- Verifica finale sulla View Gold già creata
+-- Verifica finale sulla View gold già creata
 SELECT DISTINCT gender
 FROM gold.dim_customers;
 
@@ -70,7 +70,7 @@ Obiettivo: Verificare l'unione tra Prodotti CRM e Categorie ERP.
 ===============================================================================
 */
 
--- Controllo Base: JOIN tra prodotti Silver e categorie ERP
+-- Controllo Base: JOIN tra prodotti silver e categorie ERP
 SELECT pn.prd_id,
        pn.cat_id,
        pn.prd_key,
@@ -95,7 +95,7 @@ FROM (SELECT pn.prd_id
 GROUP BY prd_id
 HAVING count(*) > 1;
 
--- Verifica finale sulla View Gold dei Prodotti
+-- Verifica finale sulla View gold dei Prodotti
 SELECT *
 FROM gold.dim_products;
 
@@ -103,7 +103,7 @@ FROM gold.dim_products;
 /* ===============================================================================
 3. SALES FACT VALIDATION (DATA LOOKUP)
 ===============================================================================
-Obiettivo: Garantire che ogni vendita possa collegarsi correttamente alle dimensioni Gold.
+Obiettivo: Garantire che ogni vendita possa collegarsi correttamente alle dimensioni gold.
 ===============================================================================
 */
 
@@ -131,7 +131,7 @@ Obiettivo: Verificare che ogni record nella Fact Table abbia una corrispondenza
 */
 
 -- Controllo Integrità: Clienti
--- Cerchiamo vendite che NON hanno un cliente corrispondente nel Gold
+-- Cerchiamo vendite che NON hanno un cliente corrispondente nel gold
 SELECT
     f.order_number,
     f.customer_key,
@@ -142,7 +142,7 @@ LEFT JOIN gold.dim_customers c
 WHERE c.customer_key IS NULL;
 
 -- Controllo Integrità: Prodotti
--- Cerchiamo vendite che NON hanno un prodotto corrispondente nel Gold
+-- Cerchiamo vendite che NON hanno un prodotto corrispondente nel gold
 SELECT
     f.order_number,
     f.product_key,

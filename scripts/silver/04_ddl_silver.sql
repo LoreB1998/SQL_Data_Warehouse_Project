@@ -1,6 +1,6 @@
 /*
 ===============================================================================
-DDL Script: Create Silver Tables (PostgreSQL Version)
+DDL Script: Create silver Tables (PostgreSQL Version)
 ===============================================================================
 Script Purpose:
     Questo script crea le tabelle nel layer 'silver', eliminando quelle esistenti.

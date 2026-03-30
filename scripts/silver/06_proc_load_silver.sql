@@ -1,13 +1,13 @@
 /*
 ===============================================================================
-Stored Procedure: Load Silver Layer (Bronze -> Silver)
+Stored Procedure: Load silver Layer (bronze -> silver)
 ===============================================================================
 Script Purpose:
     Questa stored procedure esegue il processo ETL (Extract, Transform, Load) per
     popolare le tabelle del layer 'silver' dal layer 'bronze'.
     Azioni eseguite:
     - Svuota le tabelle silver (TRUNCATE).
-    - Inserisce i dati trasformati e puliti dal Bronze al Silver.
+    - Inserisce i dati trasformati e puliti dal bronze al silver.
     - Gestisce la standardizzazione di generi, stati civili e paesi.
     - Risolve anomalie logiche su date e calcoli di vendita.
 
@@ -32,7 +32,7 @@ BEGIN
     v_batch_start_time := clock_timestamp();
 
     RAISE NOTICE '================================================';
-    RAISE NOTICE 'Loading Silver Layer';
+    RAISE NOTICE 'Loading silver Layer';
     RAISE NOTICE '================================================';
 
     -- ------------------------------------------------
@@ -205,7 +205,7 @@ BEGIN
 
     v_batch_end_time := clock_timestamp();
     RAISE NOTICE '==========================================';
-    RAISE NOTICE 'Loading Silver Layer is Completed';
+    RAISE NOTICE 'Loading silver Layer is Completed';
     RAISE NOTICE '   - Total Load Duration: %', v_batch_end_time - v_batch_start_time;
     RAISE NOTICE '==========================================';
 

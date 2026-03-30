@@ -1,6 +1,6 @@
 /*
 =======================================================================
-DDL Script: Bronze Layer
+DDL Script: bronze Layer
 =======================================================================
 Script Purpose:
     Questo script crea le tabelle nel layer 'bronze' per l'ingestione
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS bronze.crm_prd_info (
     prd_id          INT,            -- ID numerico del prodotto
     prd_key         VARCHAR(50),    -- Codice alfanumerico (es. CO-RF-FR...)
     prd_nm          VARCHAR(100),   -- Nome del prodotto (es. HL Road Frame)
-    prd_cost        INT,            -- Costo (usiamo INT o NUMERIC perché nel Bronze accettiamo null)
+    prd_cost        INT,            -- Costo (usiamo INT o NUMERIC perché nel bronze accettiamo null)
     prd_line        VARCHAR(50),    -- Linea di prodotto (es. R, S)
     prd_start_dt    TIMESTAMP,      -- Data inizio (usiamo TIMESTAMP per flessibilità)
     prd_end_dt      TIMESTAMP       -- Data fine (può essere nulla)
