@@ -92,7 +92,7 @@ Per riprodurre questo Data Warehouse sul tuo ambiente locale:
 ---
 
 ## 📚 Documentazione Aggiuntiva
-Per i dettagli sulle logiche di business e le metriche, consulta il nostro dizionario dati:
+Per i dettagli sulle logiche di business e le metriche, consulta il dizionario dati:
 * 📖 [**Data Catalog (Layer Gold)**](docs/data_catalog.md)
 
 ---
