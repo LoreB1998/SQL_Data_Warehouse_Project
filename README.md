@@ -24,9 +24,29 @@ Fornire insight dettagliati su:
 
 Il progetto è suddiviso in tre layer logici per garantire tracciabilità e qualità:
 
+![Architecture Overview](assets/architecture.svg)
+
 1.  **🥉 Bronze Layer**: Dati grezzi importati "as-is" dai sistemi sorgente (ERP/CRM). Obiettivo: Tracciabilità e Debugging.
 2.  **🥈 Silver Layer**: Dati puliti, standardizzati e normalizzati. In questa fase vengono gestite le colonne derivate e l'arricchimento dei dati.
 3.  **🥇 Gold Layer**: Dati "Business-Ready" pronti per il consumo. Utilizzo di **Star Schema** (Fact e Dimension tables) e viste aggregate.
+
+### Dettaglio dei Layer
+
+![Data Layers - Part 1](assets/data_layers_1.svg)
+
+![Data Layers - Part 2](assets/data_layers_2.svg)
+
+---
+
+## 🔗 Integrazione delle Sorgenti Dati
+
+![Data Integration Model](assets/data_integration_model.svg)
+
+---
+
+## ⭐ Star Schema (Gold Layer)
+
+![Star Schema](assets/star_schema.svg)
 
 ---
 
@@ -49,7 +69,11 @@ Per garantire la manutenibilità, il progetto segue regole rigorose:
 ---
 
 ## 🚀 Workflow di Sviluppo
+
 Il ciclo di vita di ogni layer segue questo flusso:
+
+![Data Flow](assets/data_flow.svg)
+
 1.  **Analysis**: Analisi dei sistemi sorgente e degli oggetti di business.
 2.  **Coding**: Sviluppo delle procedure di carico (`load_bronze`, `load_silver`, `load_gold`).
 3.  **Validation**: Check di completezza, schema e correttezza dei dati.
