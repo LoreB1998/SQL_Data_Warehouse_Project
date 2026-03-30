@@ -1,4 +1,8 @@
 # SQL Data Warehouse Project: Medallion Architecture con PostgreSQL
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Data Engineering](https://img.shields.io/badge/Data_Engineering-FFD700?style=for-the-badge&logo=databricks&logoColor=black)
+![Medallion Architecture](https://img.shields.io/badge/Medallion_Architecture-Gold_Silver_Bronze-orange?style=for-the-badge)
 
 Questo progetto presenta una soluzione completa di Data Warehousing e Analytics, focalizzata sull'implementazione di un'architettura **Medallion** per trasformare dati grezzi in insight strategici. Il progetto è stato sviluppato seguendo le best practice del settore per l'ingegneria dei dati e la modellazione analitica.
 
