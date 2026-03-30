@@ -79,5 +79,17 @@ Il ciclo di vita di ogni layer segue questo flusso:
 3.  **Validation**: Check di completezza, schema e correttezza dei dati.
 4.  **Versioning**: Documentazione e commit del codice su repository Git.
 
+## ⚙️ Come eseguire il progetto (How to Run)
+Per riprodurre questo Data Warehouse sul tuo ambiente locale:
+1. Assicurati di avere **PostgreSQL** installato e in esecuzione.
+2. Clona questo repository.
+3. Esegui gli script SQL seguendo l'ordine numerico progressivo indicato nei nomi dei file (es. `01_...`, `02_...`, ecc.) tramite DataGrip o psql.
+
+---
+
+## 📚 Documentazione Aggiuntiva
+Per i dettagli sulle logiche di business e le metriche, consulta il nostro dizionario dati:
+* 📖 [**Data Catalog (Layer Gold)**](docs/data_catalog.md)
+
 ---
 *Progetto realizzato da Lorenzo Barbato.*
