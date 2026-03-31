@@ -6,15 +6,14 @@ Catalogo delle query analitiche implementate nel Data Warehouse, organizzate in 
 
 ## 📑 Indice
 
-1. [Exploration Data Analysis](#-exploration-data-analysis)
-2. [Advanced Queries](#-advanced-queries)
-3. [Come Eseguire le Analisi](#-come-eseguire-le-analisi)
+1. [Exploration Data Analysis](#exploration-data-analysis)
+2. [Advanced Queries](#advanced-queries)
+3. [Come Eseguire le Analisi](#come-eseguire-le-analisi)
 4. [Prerequisiti](#prerequisiti)
 
 ---
 
-<a id="exploration-data-analysis"></a>
-## 🔍 Exploration Data Analysis
+## <a id="exploration-data-analysis"></a>🔍 Exploration Data Analysis
 
 Suite di query per **validare la struttura e la qualità dei dati** nel Data Warehouse, inclusi controlli su metadati, distribuzioni, cardinalità e anomalie.
 
@@ -49,8 +48,7 @@ Esecuzione consigliata per una validazione completa:
 
 ---
 
-<a id="advanced-queries"></a>
-## 🚀 Advanced Queries
+## <a id="advanced-queries"></a>🚀 Advanced Queries
 
 Suite di query per **analytics strategica e business intelligence**, implementando pattern analitici avanzati per supportare decision-making data-driven.
 
@@ -81,10 +79,10 @@ Suite di query per **analytics strategica e business intelligence**, implementan
 
 ---
 
-<a id="come-eseguire-le-analisi"></a>
-## 🔗 Come Eseguire le Analisi
 
-### Prerequisiti
+## <a id="come-eseguire-le-analisi"></a>🔗 Come Eseguire le Analisi
+
+### <a id="prerequisiti"></a>Prerequisiti
 
 ✅ Database PostgreSQL con dati caricati nel Layer Gold (`dim_*` e `fact_*` tables)  
 ✅ Client SQL: DataGrip, pgAdmin, psql, o DBeaver  
