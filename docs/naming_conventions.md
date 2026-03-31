@@ -82,3 +82,56 @@ I nomi devono essere significativi e allineati al business, con prefisso di cate
 | `load_bronze`    | Bronze       |
 | `load_silver`    | Silver       |
 | `load_gold`      | Gold         |
+
+---
+
+## Views & Materialized Views (Gold Layer)
+
+### Materialized Views (Pre-aggregated Data)
+
+- **Formato**: `agg_<metrica>_<granularità>`
+- Il prefisso `agg_` indica una vista materializzata con dati pre-aggregati
+- Utilizzate per velocizzare query complesse di reporting
+- **Esempio**: `agg_sales_monthly`, `agg_customer_lifetime_value`
+
+| Elemento         | Regola                                                        | Esempio                |
+|------------------|---------------------------------------------------------------|------------------------|
+| **Formato**      | `agg_<metrica>_<granularità>`                                 |                        |
+| **`<metrica>`**  | Metrica aggregata (sales, revenue, count, etc.)              | `agg_sales_...`        |
+| **`<granularità>`** | Livello di aggregazione (daily, monthly, yearly, by_customer) | `...monthly`           |
+| **Esempi**       |                                                              | `agg_sales_monthly`   |
+|                  |                                                              | `agg_revenue_yearly`  |
+|                  |                                                              | `agg_quantity_by_product` |
+
+---
+
+## Convenzioni Generali (Tutti i Layer)
+
+### Evitare
+
+❌ Abbreviazioni non standard (es. `cst` invece di `customer`)  
+❌ Caratteri speciali, spazi, accenti (es. `vendite_€`, `order#`)  
+❌ CamelCase o PascalCase per tabelle (SQL preferisce snake_case)  
+❌ Nomi troppo generici (es. `data`, `value`, `tmp`)  
+❌ Pluralizzazione incoerente (usa singolare per tabelle)  
+
+### Preferire
+
+✅ Nomi descrittivi e auto-esplicativi  
+✅ snake_case coerente  
+✅ Coerenza con il dominio di business  
+✅ Nomi che spiegano il **contenuto** e il **purpose**  
+✅ Documentazione inline con commenti SQL  
+
+---
+
+## Esempio di Applicazione Completa
+
+Dati ERP `CUST_AZ12.csv` sul sistema **erp**:
+
+```
+Layer Bronze    → erp_cust_az12          (as-is, raw)
+Layer Silver    → erp_cust_az12          (cleaned, standardized)
+Layer Gold      → dim_customers          (business-ready, SCD Type 2)
+View Aggregate  → agg_customer_sales_ytd (year-to-date metrics)
+```
