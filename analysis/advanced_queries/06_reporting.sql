@@ -22,6 +22,9 @@ Punti salienti:
 */
 CREATE VIEW gold.report_customers AS
 WITH base_query AS (
+/*---------------------------------------------------------------------------
+1) Base Query: Estrazione dati da fact_sales e dim_customers
+---------------------------------------------------------------------------*/
     SELECT fs.order_number,
            fs.product_key,
            fs.order_date,
@@ -33,10 +36,13 @@ WITH base_query AS (
            EXTRACT(YEAR FROM AGE(CURRENT_DATE, dc.birthdate)) AS age
     FROM gold.fact_sales fs
     INNER JOIN gold.dim_customers dc ON fs.customer_key = dc.customer_key
-    WHERE fs.order_date IS NOT NULL
+    WHERE fs.order_date IS NOT NULL  -- Consideriamo solo vendite valide
 ),
 
 customer_aggregation AS (
+/*---------------------------------------------------------------------------
+2) Customer Aggregation: Sintesi delle metriche a livello di cliente
+---------------------------------------------------------------------------*/
     SELECT customer_key,
            customer_number,
            customer_name,
@@ -52,6 +58,9 @@ customer_aggregation AS (
     GROUP BY customer_key, customer_number, customer_name, age
 )
 
+/*---------------------------------------------------------------------------
+3) Final Query: Calcolo dei KPI e Segmentazione
+---------------------------------------------------------------------------*/
 SELECT customer_key,
        customer_number,
        customer_name,
@@ -71,7 +80,7 @@ SELECT customer_key,
            ELSE '3. New'
        END AS customer_segment,
        last_order_date,
-       -- KPI: Recency (Mesi dall'ultimo ordine)
+       -- KPI: Recency (mesi dall'ultimo ordine)
        (EXTRACT(YEAR FROM AGE(CURRENT_DATE, last_order_date)) * 12 +
         EXTRACT(MONTH FROM AGE(CURRENT_DATE, last_order_date))) AS recency,
        total_order,
@@ -84,3 +93,109 @@ SELECT customer_key,
        -- KPI: Spesa Media Mensile
        ROUND(total_sales / NULLIF(lifespan_months, 0), 2) AS avg_monthly_spent
 FROM customer_aggregation;
+
+/*
+===============================================================================
+REPORT PRODOTTI (Product Report)
+===============================================================================
+Scopo:
+    - Questo report consolida le metriche chiave e le performance dei prodotti.
+
+Punti salienti:
+    1. Raccoglie campi essenziali come nome prodotto, categoria, sottocategoria e costo.
+    2. Aggrega metriche a livello di prodotto:
+        - ordini totali
+        - vendite totali
+        - quantità totale venduta
+        - clienti totali (unici che hanno acquistato il prodotto)
+        - lifespan (longevità del prodotto in mesi nel catalogo)
+    3. Segmentazione dei prodotti in categorie (High-Performer, Mid-Range, Low-Performer).
+    4. Calcola KPI di valore:
+        - recency (mesi dall'ultima vendita)
+        - ricavo medio per ordine (AOR)
+        - ricavo medio mensile
+===============================================================================
+*/
+CREATE VIEW gold.report_products AS
+WITH base_query AS (
+/*---------------------------------------------------------------------------
+1) Base Query: Estrazione dati da fact_sales e dim_products
+---------------------------------------------------------------------------*/
+    SELECT
+        f.order_number,
+        f.order_date,
+        f.customer_key,
+        f.sales_amount,
+        f.quantity,
+        p.product_key,
+        p.product_name,
+        p.category,
+        p.subcategory,
+        p.cost
+    FROM gold.fact_sales f
+    LEFT JOIN gold.dim_products p
+        ON f.product_key = p.product_key
+    WHERE f.order_date IS NOT NULL  -- Consideriamo solo vendite valide
+),
+
+product_aggregations AS (
+/*---------------------------------------------------------------------------
+2) Product Aggregations: Sintesi delle metriche a livello di prodotto
+---------------------------------------------------------------------------*/
+    SELECT
+        product_key,
+        product_name,
+        category,
+        subcategory,
+        cost,
+        (EXTRACT(YEAR FROM AGE(MAX(order_date), MIN(order_date))) * 12 +
+         EXTRACT(MONTH FROM AGE(MAX(order_date), MIN(order_date)))) + 1 AS lifespan,
+        MAX(order_date) AS last_sale_date,
+        COUNT(DISTINCT order_number) AS total_orders,
+        COUNT(DISTINCT customer_key) AS total_customers,
+        SUM(sales_amount) AS total_sales,
+        SUM(quantity) AS total_quantity,
+        -- Prezzo medio di vendita (evitiamo divisione per zero)
+        ROUND(AVG(sales_amount::numeric / NULLIF(quantity, 0)), 1) AS avg_selling_price
+    FROM base_query
+    GROUP BY
+        product_key,
+        product_name,
+        category,
+        subcategory,
+        cost
+)
+
+/*---------------------------------------------------------------------------
+3) Final Query: Calcolo dei KPI e Segmentazione
+---------------------------------------------------------------------------*/
+SELECT
+    product_key,
+    product_name,
+    category,
+    subcategory,
+    cost,
+    last_sale_date,
+    -- KPI: Recency (mesi dall'ultima vendita)
+    (EXTRACT(YEAR FROM AGE(CURRENT_DATE, last_sale_date)) * 12 +
+     EXTRACT(MONTH FROM AGE(CURRENT_DATE, last_sale_date))) AS recency_in_months,
+    -- Segmentazione Valore Prodotto
+    CASE
+        WHEN total_sales > 50000 THEN 'High-Performer'
+        WHEN total_sales >= 10000 THEN 'Mid-Range'
+        ELSE 'Low-Performer'
+    END AS product_segment,
+    lifespan,
+    total_orders,
+    total_sales,
+    total_quantity,
+    total_customers,
+    avg_selling_price,
+    -- KPI: Ricavo Medio per Ordine (AOR)
+    ROUND(total_sales::numeric / NULLIF(total_orders, 0), 2) AS avg_order_revenue,
+    -- KPI: Ricavo Medio Mensile
+    CASE
+        WHEN lifespan = 0 THEN total_sales
+        ELSE ROUND(total_sales::numeric / lifespan, 2)
+    END AS avg_monthly_revenue
+FROM product_aggregations;
